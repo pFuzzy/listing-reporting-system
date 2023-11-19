@@ -9,10 +9,7 @@ import hu.fazekas.dao.impl.ListingDaoImpl;
 import hu.fazekas.dao.impl.ListingStatusDaoImpl;
 import hu.fazekas.dao.impl.LocationDaoImpl;
 import hu.fazekas.dao.impl.MarketplaceDaoImpl;
-import hu.fazekas.dto.ListingDto;
-import hu.fazekas.dto.ListingStatusDto;
-import hu.fazekas.dto.LocationDto;
-import hu.fazekas.dto.MarketplaceDto;
+import hu.fazekas.dto.*;
 import hu.fazekas.service.ListingService;
 import hu.fazekas.service.ListingStatusService;
 import hu.fazekas.service.LocationService;
@@ -22,6 +19,7 @@ import hu.fazekas.service.impl.ListingStatusServiceImpl;
 import hu.fazekas.service.impl.LocationServiceImpl;
 import hu.fazekas.service.impl.MarketplaceServiceImpl;
 import hu.fazekas.util.CsvWriter;
+import hu.fazekas.util.JsonHandler;
 import hu.fazekas.util.RequestHandler;
 import hu.fazekas.validator.ListingStatusValidator;
 import hu.fazekas.validator.ListingValidator;
@@ -30,6 +28,7 @@ import hu.fazekas.validator.MarketplaceValidator;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 
 public class App 
 {
@@ -39,6 +38,7 @@ public class App
         MarketplaceDao marketplaceDao = new MarketplaceDaoImpl();
         ListingDao listingDao = new ListingDaoImpl();
         CsvWriter csvWriter = new CsvWriter();
+        JsonHandler jsonHandler = new JsonHandler();
 
         LocationService locationService = initLocationService(locationDao);
         ListingStatusService listingStatusService = initListingStatusService(listingStatusDao);
@@ -70,6 +70,15 @@ public class App
         for (ListingDto listing : listings) {
             listingService.saveListing(listing);
         }
+
+        ListingReportDto listingReport = listingService.getListingReport();
+        List<MonthlyListingReportDto> monthlyListingReports = listingService.getMonthlyListingReports();
+        List<Integer> monthsWithoutListing = listingService.getMonthsWithoutListing(monthlyListingReports);
+
+        jsonHandler.createJsonReport(listingReport, monthlyListingReports, monthsWithoutListing);
+
+
+
 
     }
 
