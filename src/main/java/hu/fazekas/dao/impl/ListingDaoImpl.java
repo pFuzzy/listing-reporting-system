@@ -2,7 +2,6 @@ package hu.fazekas.dao.impl;
 
 import hu.fazekas.dao.AbstractDao;
 import hu.fazekas.dao.ListingDao;
-import hu.fazekas.dto.AbstractListingReportDto;
 import hu.fazekas.dto.ListingDto;
 import hu.fazekas.dto.ListingReportDto;
 import hu.fazekas.dto.MonthlyListingReportDto;

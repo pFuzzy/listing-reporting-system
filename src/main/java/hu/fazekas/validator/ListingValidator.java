@@ -114,12 +114,11 @@ public class ListingValidator {
     private String createErrorMessage(ListingDto listingDto, String invalidField){
         if(invalidField.equals("marketplaceId")){
             return listingDto.getId() + "," +
-                    "No marketplace found, " +
+                    "No marketplace found," +
                     invalidField;
         }
         return listingDto.getId() + "," +
                 marketplaceDao.getMarketplaceNameById(listingDto.getMarketPlaceId()) + "," +
                 invalidField;
     }
-
 }
