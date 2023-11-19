@@ -7,4 +7,6 @@ public interface MarketplaceDao {
     void saveMarketPlace(MarketplaceDto marketplace);
 
     Boolean existsById(Long id);
+
+    String getMarketplaceNameById(Long id);
 }

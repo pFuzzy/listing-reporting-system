@@ -21,6 +21,7 @@ import hu.fazekas.service.impl.ListingServiceImpl;
 import hu.fazekas.service.impl.ListingStatusServiceImpl;
 import hu.fazekas.service.impl.LocationServiceImpl;
 import hu.fazekas.service.impl.MarketplaceServiceImpl;
+import hu.fazekas.util.CsvWriter;
 import hu.fazekas.util.RequestHandler;
 import hu.fazekas.validator.ListingStatusValidator;
 import hu.fazekas.validator.ListingValidator;
@@ -37,11 +38,12 @@ public class App
         ListingStatusDao listingStatusDao = new ListingStatusDaoImpl();
         MarketplaceDao marketplaceDao = new MarketplaceDaoImpl();
         ListingDao listingDao = new ListingDaoImpl();
+        CsvWriter csvWriter = new CsvWriter();
 
         LocationService locationService = initLocationService(locationDao);
         ListingStatusService listingStatusService = initListingStatusService(listingStatusDao);
         MarketplaceService marketplaceService = initMarketplaceService(marketplaceDao);
-        ListingService listingService = initListingService(locationDao, listingStatusDao, marketplaceDao, listingDao);
+        ListingService listingService = initListingService(locationDao, listingStatusDao, marketplaceDao, listingDao, csvWriter);
 
         RequestHandler requestHandler = new RequestHandler();
 
@@ -66,7 +68,6 @@ public class App
         ListingDto[] listings = requestHandler.getListings();
 
         for (ListingDto listing : listings) {
-            System.out.println(listing.getUploadTime());
             listingService.saveListing(listing);
         }
 
@@ -88,9 +89,9 @@ public class App
     }
 
     private static ListingService initListingService(LocationDao locationDao, ListingStatusDao listingStatusDao,
-                                                     MarketplaceDao marketplaceDao,ListingDao listingDao ) {
+                                                     MarketplaceDao marketplaceDao,ListingDao listingDao, CsvWriter csvWriter) {
         ListingValidator listingValidator = new ListingValidator(listingStatusDao, marketplaceDao, locationDao, listingDao);
-        return new ListingServiceImpl(listingValidator, listingDao);
+        return new ListingServiceImpl(listingValidator, listingDao , csvWriter);
     }
 
 }

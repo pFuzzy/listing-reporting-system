@@ -37,4 +37,19 @@ public class MarketplaceDaoImpl extends AbstractDao implements MarketplaceDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public String getMarketplaceNameById(Long id) {
+        try(Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+            Statement statement = connection.createStatement()) {
+
+            ResultSet resultSet = statement.executeQuery(String.format("SELECT marketplace_name FROM marketplace WHERE id = %d", id));
+            resultSet.next();
+
+            return resultSet.getString("marketplace_name");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
