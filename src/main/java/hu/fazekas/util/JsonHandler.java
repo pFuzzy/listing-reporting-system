@@ -56,7 +56,7 @@ public class JsonHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        uploadToFTP();
+//        uploadToFTP();
 
     }
 
