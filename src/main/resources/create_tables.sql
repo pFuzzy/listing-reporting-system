@@ -1,3 +1,4 @@
+# CREATE DATABASE listing_reporting_system;
 CREATE TABLE listing(
                         id varchar(36) PRIMARY KEY NOT NULL ,
                         title text NOT NULL,
